@@ -80,7 +80,9 @@ func (s schema) Markdown(level int) string {
 	fmt.Fprintln(&buf)
 
 	for _, obj := range findDefinitions(&s) {
-		fmt.Fprint(&buf, obj.Markdown(level+1))
+		if len(obj.Properties) > 0 {
+			fmt.Fprint(&buf, obj.Markdown(level+1))
+		}
 	}
 
 	return buf.String()
@@ -148,7 +150,11 @@ func printProperties(w io.Writer, s *schema) {
 		for _, pt := range p.Type {
 			switch pt {
 			case PropertyTypeObject:
-				propType = append(propType, fmt.Sprintf("[object](#%s)", strings.ToLower(k)))
+				if len(p.Properties) > 0 {
+					propType = append(propType, fmt.Sprintf("[object](#%s)", strings.ToLower(k)))
+				} else {
+					propType = append(propType, "[object]")
+				}
 			case PropertyTypeArray:
 				if p.Items != nil {
 					for _, pi := range p.Items.Type {
