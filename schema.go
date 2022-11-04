@@ -53,6 +53,21 @@ func newSchema(r io.Reader, workingDir string) (*schema, error) {
 	return resolveSchema(&data, workingDir, root)
 }
 
+func buildSchemaPath(s *schema) string {
+	schemaPath := s.Key
+
+	for parent := s.Parent; parent != nil; parent = parent.Parent {
+		schemaPath = fmt.Sprintf("%s.%s", parent.Key, schemaPath)
+	}
+
+	// Handle root schema's heading
+	if s.Parent == nil {
+		schemaPath = s.Title
+	}
+
+	return strings.TrimLeft(schemaPath, ".")
+}
+
 // Markdown returns the Markdown representation of the schema.
 //
 // The level argument can be used to offset the heading levels. This can be
@@ -65,7 +80,7 @@ func (s schema) Markdown(level int) string {
 	var buf bytes.Buffer
 
 	if s.Title != "" {
-		fmt.Fprintln(&buf, makeHeading(s.Title, level))
+		fmt.Fprintln(&buf, makeHeading(buildSchemaPath(&s), level))
 		fmt.Fprintln(&buf)
 	}
 
@@ -123,6 +138,8 @@ func findDefinitions(s *schema) []*schema {
 			if p.Items != nil {
 				if p.Items.Type.HasType(PropertyTypeObject) {
 					p.Items.Title = k
+					p.Items.Key = k
+					p.Items.Parent = s
 					objs = append(objs, p.Items)
 				}
 			}
@@ -156,7 +173,7 @@ func printProperties(w io.Writer, s *schema) {
 			switch pt {
 			case PropertyTypeObject:
 				if len(p.Properties) > 0 {
-					propType = append(propType, fmt.Sprintf("[object](#%s)", strings.ToLower(k)))
+					propType = append(propType, fmt.Sprintf("[object](#%s)", strings.ToLower(buildSchemaPath(p))))
 				} else {
 					propType = append(propType, "[object]")
 				}

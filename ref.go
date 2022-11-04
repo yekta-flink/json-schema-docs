@@ -15,7 +15,7 @@ import (
 
 // resolveSchema recursively resolves schemas.
 func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, error) {
-	for _, prop := range schem.Properties {
+	for k, prop := range schem.Properties {
 		if prop.Ref != "" {
 			tmp, err := resolveReference(prop.Ref, dir, root)
 			if err != nil {
@@ -28,6 +28,8 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 			return nil, err
 		}
 		*prop = *foo
+		prop.Parent = schem
+		prop.Key = k
 	}
 
 	if schem.Items != nil {
