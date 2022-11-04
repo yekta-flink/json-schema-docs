@@ -77,6 +77,10 @@ func (s schema) Markdown(level int) string {
 		level = 1
 	}
 
+	if level > 3 {
+		level = 3
+	}
+
 	var buf bytes.Buffer
 
 	if s.Title != "" {
