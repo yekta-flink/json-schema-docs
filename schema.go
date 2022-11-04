@@ -104,7 +104,10 @@ func (s schema) Markdown(level int) string {
 	fmt.Fprintln(&buf)
 
 	for _, obj := range findDefinitions(&s) {
-		if len(obj.Properties) > 0 {
+		if (len(obj.Properties) == 0) && (obj.Then == nil) {
+			continue
+		}
+
 			fmt.Fprint(&buf, obj.Markdown(level+1))
 		}
 	}
