@@ -1,16 +1,13 @@
 # json-schema-docs
 
-[![License](https://img.shields.io/github/license/grafana/json-schema-docs)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/grafana/json-schema-docs)](https://goreportcard.com/report/github.com/grafana/json-schema-docs)
-
-A simple JSON Schema to Markdown generator.
+A simple JSON Schema to Markdown generator, forked from `marcusolsson/json-schema-docs`.
 
 This generator doesn't attempt to support the full JSON Schema specification. Instead, it's designed with the rationale that most people are only using a subset of the spec.
 
 ## Install
 
 ```bash
-go install github.com/marcusolsson/json-schema-docs
+go install github.com/goflink/json-schema-docs
 ```
 
 ## Run
