@@ -15,17 +15,22 @@ import (
 )
 
 type schema struct {
-	ID          string             `json:"$id,omitempty"`
-	Ref         string             `json:"$ref,omitempty"`
-	Schema      string             `json:"$schema,omitempty"`
-	Title       string             `json:"title,omitempty"`
-	Description string             `json:"description,omitempty"`
-	Required    []string           `json:"required,omitempty"`
-	Type        PropertyTypes      `json:"type,omitempty"`
-	Properties  map[string]*schema `json:"properties,omitempty"`
-	Items       *schema            `json:"items,omitempty"`
-	Definitions map[string]*schema `json:"definitions,omitempty"`
-	Enum        []Any              `json:"enum"`
+	Key               string
+	ID                string `json:"$id,omitempty"`
+	Ref               string `json:"$ref,omitempty"`
+	Parent            *schema
+	Schema            string             `json:"$schema,omitempty"`
+	Title             string             `json:"title,omitempty"`
+	Description       string             `json:"description,omitempty"`
+	Required          []string           `json:"required,omitempty"`
+	Type              PropertyTypes      `json:"type,omitempty"`
+	Properties        map[string]*schema `json:"properties,omitempty"`
+	PatternProperties map[string]*schema `json:"patternProperties,omitempty"`
+	Items             *schema            `json:"items,omitempty"`
+	Definitions       map[string]*schema `json:"definitions,omitempty"`
+	Enum              []Any              `json:"enum"`
+	If                *schema            `json:"if"`
+	Then              *schema            `json:"then"`
 }
 
 func newSchema(r io.Reader, workingDir string) (*schema, error) {
