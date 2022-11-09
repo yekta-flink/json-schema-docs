@@ -2,19 +2,19 @@ A representation of an event
 
 ## Properties
 
-| Property      | Type           | Required | Description                |
-|---------------|----------------|----------|----------------------------|
-| `dtstart`     | string         | **Yes**  | Event starting time        |
-| `summary`     | string         | **Yes**  |                            |
-| `category`    | string         | No       |                            |
-| `description` | string         | No       |                            |
-| `dtend`       | string         | No       | Event ending time          |
-| `duration`    | string         | No       | Event duration             |
-| `geo`         | [object](#geo) | No       | A geographical coordinate. |
-| `location`    | string         | No       |                            |
-| `rdate`       | string         | No       | Recurrence date            |
-| `rrule`       | string         | No       | Recurrence rule            |
-| `url`         | string         | No       |                            |
+| Property      | Type           | Required | Constraints | Description                |
+|---------------|----------------|----------|-------------|----------------------------|
+| `dtstart`     | string         | **Yes**  |             | Event starting time        |
+| `summary`     | string         | **Yes**  |             |                            |
+| `category`    | string         | No       |             |                            |
+| `description` | string         | No       |             |                            |
+| `dtend`       | string         | No       |             | Event ending time          |
+| `duration`    | string         | No       |             | Event duration             |
+| `geo`         | [object](#geo) | No       |             | A geographical coordinate. |
+| `location`    | string         | No       |             |                            |
+| `rdate`       | string         | No       |             | Recurrence date            |
+| `rrule`       | string         | No       |             | Recurrence rule            |
+| `url`         | string         | No       |             |                            |
 
 ## geo
 
@@ -22,8 +22,10 @@ A geographical coordinate.
 
 ### Properties
 
-| Property    | Type   | Required | Description |
-|-------------|--------|----------|-------------|
-| `latitude`  | number | **Yes**  |             |
-| `longitude` | number | **Yes**  |             |
+| Property    | Type   | Required | Constraints                 | Description |
+|-------------|--------|----------|-----------------------------|-------------|
+| `latitude`  | number | **Yes**  | Minimum: -90, Maximum: 90   |             |
+| `longitude` | number | **Yes**  | Minimum: -180, Maximum: 180 |             |
+
+
 

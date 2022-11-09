@@ -2,28 +2,28 @@ A representation of a person, company, organization, or place
 
 ## Properties
 
-| Property          | Type             | Required | Description                                               |
-|-------------------|------------------|----------|-----------------------------------------------------------|
-| `familyName`      | string           | **Yes**  |                                                           |
-| `givenName`       | string           | **Yes**  |                                                           |
-| `additionalName`  | string[]         | No       |                                                           |
-| `adr`             | [object](#adr)   | No       | An address similar to http://microformats.org/wiki/h-card |
-| `bday`            | string           | No       |                                                           |
-| `email`           | [object](#email) | No       |                                                           |
-| `fn`              | string           | No       | Formatted Name                                            |
-| `geo`             | [object](#geo)   | No       | A geographical coordinate.                                |
-| `honorificPrefix` | string[]         | No       |                                                           |
-| `honorificSuffix` | string[]         | No       |                                                           |
-| `logo`            | string           | No       |                                                           |
-| `nickname`        | string           | No       |                                                           |
-| `org`             | [object](#org)   | No       |                                                           |
-| `photo`           | string           | No       |                                                           |
-| `role`            | string           | No       |                                                           |
-| `sound`           | string           | No       |                                                           |
-| `tel`             | [object](#tel)   | No       |                                                           |
-| `title`           | string           | No       |                                                           |
-| `tz`              | string           | No       |                                                           |
-| `url`             | string           | No       |                                                           |
+| Property          | Type             | Required | Constraints | Description                                               |
+|-------------------|------------------|----------|-------------|-----------------------------------------------------------|
+| `familyName`      | string           | **Yes**  |             |                                                           |
+| `givenName`       | string           | **Yes**  |             |                                                           |
+| `additionalName`  | string[]         | No       |             |                                                           |
+| `adr`             | [object](#adr)   | No       |             | An address similar to http://microformats.org/wiki/h-card |
+| `bday`            | string           | No       |             |                                                           |
+| `email`           | [object](#email) | No       |             |                                                           |
+| `fn`              | string           | No       |             | Formatted Name                                            |
+| `geo`             | [object](#geo)   | No       |             | A geographical coordinate.                                |
+| `honorificPrefix` | string[]         | No       |             |                                                           |
+| `honorificSuffix` | string[]         | No       |             |                                                           |
+| `logo`            | string           | No       |             |                                                           |
+| `nickname`        | string           | No       |             |                                                           |
+| `org`             | [object](#org)   | No       |             |                                                           |
+| `photo`           | string           | No       |             |                                                           |
+| `role`            | string           | No       |             |                                                           |
+| `sound`           | string           | No       |             |                                                           |
+| `tel`             | [object](#tel)   | No       |             |                                                           |
+| `title`           | string           | No       |             |                                                           |
+| `tz`              | string           | No       |             |                                                           |
+| `url`             | string           | No       |             |                                                           |
 
 ## adr
 
@@ -31,24 +31,26 @@ An address similar to http://microformats.org/wiki/h-card
 
 ### Properties
 
-| Property           | Type   | Required | Description |
-|--------------------|--------|----------|-------------|
-| `country-name`     | string | **Yes**  |             |
-| `locality`         | string | **Yes**  |             |
-| `region`           | string | **Yes**  |             |
-| `extended-address` | string | No       |             |
-| `post-office-box`  | string | No       |             |
-| `postal-code`      | string | No       |             |
-| `street-address`   | string | No       |             |
+| Property           | Type   | Required | Constraints | Description |
+|--------------------|--------|----------|-------------|-------------|
+| `country-name`     | string | **Yes**  |             |             |
+| `locality`         | string | **Yes**  |             |             |
+| `region`           | string | **Yes**  |             |             |
+| `extended-address` | string | No       |             |             |
+| `post-office-box`  | string | No       |             |             |
+| `postal-code`      | string | No       |             |             |
+| `street-address`   | string | No       |             |             |
+
 
 ## email
 
 ### Properties
 
-| Property | Type   | Required | Description |
-|----------|--------|----------|-------------|
-| `type`   | string | No       |             |
-| `value`  | string | No       |             |
+| Property | Type   | Required | Constraints | Description |
+|----------|--------|----------|-------------|-------------|
+| `type`   | string | No       |             |             |
+| `value`  | string | No       |             |             |
+
 
 ## geo
 
@@ -56,26 +58,30 @@ A geographical coordinate.
 
 ### Properties
 
-| Property    | Type   | Required | Description |
-|-------------|--------|----------|-------------|
-| `latitude`  | number | **Yes**  |             |
-| `longitude` | number | **Yes**  |             |
+| Property    | Type   | Required | Constraints                 | Description |
+|-------------|--------|----------|-----------------------------|-------------|
+| `latitude`  | number | **Yes**  | Minimum: -90, Maximum: 90   |             |
+| `longitude` | number | **Yes**  | Minimum: -180, Maximum: 180 |             |
+
 
 ## org
 
 ### Properties
 
-| Property           | Type   | Required | Description |
-|--------------------|--------|----------|-------------|
-| `organizationName` | string | No       |             |
-| `organizationUnit` | string | No       |             |
+| Property           | Type   | Required | Constraints | Description |
+|--------------------|--------|----------|-------------|-------------|
+| `organizationName` | string | No       |             |             |
+| `organizationUnit` | string | No       |             |             |
+
 
 ## tel
 
 ### Properties
 
-| Property | Type   | Required | Description |
-|----------|--------|----------|-------------|
-| `type`   | string | No       |             |
-| `value`  | string | No       |             |
+| Property | Type   | Required | Constraints | Description |
+|----------|--------|----------|-------------|-------------|
+| `type`   | string | No       |             |             |
+| `value`  | string | No       |             |             |
+
+
 

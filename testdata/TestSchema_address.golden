@@ -2,13 +2,14 @@ An address similar to http://microformats.org/wiki/h-card
 
 ## Properties
 
-| Property           | Type   | Required | Description |
-|--------------------|--------|----------|-------------|
-| `country-name`     | string | **Yes**  |             |
-| `locality`         | string | **Yes**  |             |
-| `region`           | string | **Yes**  |             |
-| `extended-address` | string | No       |             |
-| `post-office-box`  | string | No       |             |
-| `postal-code`      | string | No       |             |
-| `street-address`   | string | No       |             |
+| Property           | Type   | Required | Constraints | Description |
+|--------------------|--------|----------|-------------|-------------|
+| `country-name`     | string | **Yes**  |             |             |
+| `locality`         | string | **Yes**  |             |             |
+| `region`           | string | **Yes**  |             |             |
+| `extended-address` | string | No       |             |             |
+| `post-office-box`  | string | No       |             |             |
+| `postal-code`      | string | No       |             |             |
+| `street-address`   | string | No       |             |             |
+
 

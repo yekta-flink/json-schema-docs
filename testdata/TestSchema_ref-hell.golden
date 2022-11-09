@@ -2,157 +2,169 @@ A representation of a person, company, organization, or place
 
 ## Properties
 
-| Property     | Type                    | Required | Description |
-|--------------|-------------------------|----------|-------------|
-| `fruits`     | [object](#fruits)[]     | No       |             |
-| `vegetables` | [object](#vegetables)[] | No       |             |
+| Property     | Type                    | Required | Constraints | Description |
+|--------------|-------------------------|----------|-------------|-------------|
+| `fruits`     | [object](#fruits)[]     | No       |             |             |
+| `vegetables` | [object](#vegetables)[] | No       |             |             |
 
 ## fruits
 
 ### Properties
 
-| Property | Type            | Required | Description                                                   |
-|----------|-----------------|----------|---------------------------------------------------------------|
-| `adr`    | [object](#adr)  | No       | An address similar to http://microformats.org/wiki/h-card     |
-| `cal`    | [object](#cal)  | No       | A representation of an event                                  |
-| `card`   | [object](#card) | No       | A representation of a person, company, organization, or place |
+| Property | Type                   | Required | Constraints | Description                                                   |
+|----------|------------------------|----------|-------------|---------------------------------------------------------------|
+| `adr`    | [object](#fruits.adr)  | No       |             | An address similar to http://microformats.org/wiki/h-card     |
+| `cal`    | [object](#fruits.cal)  | No       |             | A representation of an event                                  |
+| `card`   | [object](#fruits.card) | No       |             | A representation of a person, company, organization, or place |
 
-### adr
+### fruits.adr
 
 An address similar to http://microformats.org/wiki/h-card
 
 #### Properties
 
-| Property           | Type   | Required | Description |
-|--------------------|--------|----------|-------------|
-| `country-name`     | string | **Yes**  |             |
-| `locality`         | string | **Yes**  |             |
-| `region`           | string | **Yes**  |             |
-| `extended-address` | string | No       |             |
-| `post-office-box`  | string | No       |             |
-| `postal-code`      | string | No       |             |
-| `street-address`   | string | No       |             |
+| Property           | Type   | Required | Constraints | Description |
+|--------------------|--------|----------|-------------|-------------|
+| `country-name`     | string | **Yes**  |             |             |
+| `locality`         | string | **Yes**  |             |             |
+| `region`           | string | **Yes**  |             |             |
+| `extended-address` | string | No       |             |             |
+| `post-office-box`  | string | No       |             |             |
+| `postal-code`      | string | No       |             |             |
+| `street-address`   | string | No       |             |             |
 
-### cal
+
+### fruits.cal
 
 A representation of an event
 
 #### Properties
 
-| Property      | Type           | Required | Description                |
-|---------------|----------------|----------|----------------------------|
-| `dtstart`     | string         | **Yes**  | Event starting time        |
-| `summary`     | string         | **Yes**  |                            |
-| `category`    | string         | No       |                            |
-| `description` | string         | No       |                            |
-| `dtend`       | string         | No       | Event ending time          |
-| `duration`    | string         | No       | Event duration             |
-| `geo`         | [object](#geo) | No       | A geographical coordinate. |
-| `location`    | string         | No       |                            |
-| `rdate`       | string         | No       | Recurrence date            |
-| `rrule`       | string         | No       | Recurrence rule            |
-| `url`         | string         | No       |                            |
+| Property      | Type                      | Required | Constraints | Description                |
+|---------------|---------------------------|----------|-------------|----------------------------|
+| `dtstart`     | string                    | **Yes**  |             | Event starting time        |
+| `summary`     | string                    | **Yes**  |             |                            |
+| `category`    | string                    | No       |             |                            |
+| `description` | string                    | No       |             |                            |
+| `dtend`       | string                    | No       |             | Event ending time          |
+| `duration`    | string                    | No       |             | Event duration             |
+| `geo`         | [object](#fruits.cal.geo) | No       |             | A geographical coordinate. |
+| `location`    | string                    | No       |             |                            |
+| `rdate`       | string                    | No       |             | Recurrence date            |
+| `rrule`       | string                    | No       |             | Recurrence rule            |
+| `url`         | string                    | No       |             |                            |
 
-#### geo
+### fruits.cal.geo
 
 A geographical coordinate.
 
-##### Properties
+#### Properties
 
-| Property    | Type   | Required | Description |
-|-------------|--------|----------|-------------|
-| `latitude`  | number | **Yes**  |             |
-| `longitude` | number | **Yes**  |             |
+| Property    | Type   | Required | Constraints                 | Description |
+|-------------|--------|----------|-----------------------------|-------------|
+| `latitude`  | number | **Yes**  | Minimum: -90, Maximum: 90   |             |
+| `longitude` | number | **Yes**  | Minimum: -180, Maximum: 180 |             |
 
-### card
+
+
+### fruits.card
 
 A representation of a person, company, organization, or place
 
 #### Properties
 
-| Property          | Type             | Required | Description                                               |
-|-------------------|------------------|----------|-----------------------------------------------------------|
-| `familyName`      | string           | **Yes**  |                                                           |
-| `givenName`       | string           | **Yes**  |                                                           |
-| `additionalName`  | string[]         | No       |                                                           |
-| `adr`             | [object](#adr)   | No       | An address similar to http://microformats.org/wiki/h-card |
-| `bday`            | string           | No       |                                                           |
-| `email`           | [object](#email) | No       |                                                           |
-| `fn`              | string           | No       | Formatted Name                                            |
-| `geo`             | [object](#geo)   | No       | A geographical coordinate.                                |
-| `honorificPrefix` | string[]         | No       |                                                           |
-| `honorificSuffix` | string[]         | No       |                                                           |
-| `logo`            | string           | No       |                                                           |
-| `nickname`        | string           | No       |                                                           |
-| `org`             | [object](#org)   | No       |                                                           |
-| `photo`           | string           | No       |                                                           |
-| `role`            | string           | No       |                                                           |
-| `sound`           | string           | No       |                                                           |
-| `tel`             | [object](#tel)   | No       |                                                           |
-| `title`           | string           | No       |                                                           |
-| `tz`              | string           | No       |                                                           |
-| `url`             | string           | No       |                                                           |
+| Property          | Type                         | Required | Constraints | Description                                               |
+|-------------------|------------------------------|----------|-------------|-----------------------------------------------------------|
+| `familyName`      | string                       | **Yes**  |             |                                                           |
+| `givenName`       | string                       | **Yes**  |             |                                                           |
+| `additionalName`  | string[]                     | No       |             |                                                           |
+| `adr`             | [object](#fruits.card.adr)   | No       |             | An address similar to http://microformats.org/wiki/h-card |
+| `bday`            | string                       | No       |             |                                                           |
+| `email`           | [object](#fruits.card.email) | No       |             |                                                           |
+| `fn`              | string                       | No       |             | Formatted Name                                            |
+| `geo`             | [object](#fruits.card.geo)   | No       |             | A geographical coordinate.                                |
+| `honorificPrefix` | string[]                     | No       |             |                                                           |
+| `honorificSuffix` | string[]                     | No       |             |                                                           |
+| `logo`            | string                       | No       |             |                                                           |
+| `nickname`        | string                       | No       |             |                                                           |
+| `org`             | [object](#fruits.card.org)   | No       |             |                                                           |
+| `photo`           | string                       | No       |             |                                                           |
+| `role`            | string                       | No       |             |                                                           |
+| `sound`           | string                       | No       |             |                                                           |
+| `tel`             | [object](#fruits.card.tel)   | No       |             |                                                           |
+| `title`           | string                       | No       |             |                                                           |
+| `tz`              | string                       | No       |             |                                                           |
+| `url`             | string                       | No       |             |                                                           |
 
-#### adr
+### fruits.card.adr
 
 An address similar to http://microformats.org/wiki/h-card
 
-##### Properties
+#### Properties
 
-| Property           | Type   | Required | Description |
-|--------------------|--------|----------|-------------|
-| `country-name`     | string | **Yes**  |             |
-| `locality`         | string | **Yes**  |             |
-| `region`           | string | **Yes**  |             |
-| `extended-address` | string | No       |             |
-| `post-office-box`  | string | No       |             |
-| `postal-code`      | string | No       |             |
-| `street-address`   | string | No       |             |
+| Property           | Type   | Required | Constraints | Description |
+|--------------------|--------|----------|-------------|-------------|
+| `country-name`     | string | **Yes**  |             |             |
+| `locality`         | string | **Yes**  |             |             |
+| `region`           | string | **Yes**  |             |             |
+| `extended-address` | string | No       |             |             |
+| `post-office-box`  | string | No       |             |             |
+| `postal-code`      | string | No       |             |             |
+| `street-address`   | string | No       |             |             |
 
-#### email
 
-##### Properties
+### fruits.card.email
 
-| Property | Type   | Required | Description |
-|----------|--------|----------|-------------|
-| `type`   | string | No       |             |
-| `value`  | string | No       |             |
+#### Properties
 
-#### geo
+| Property | Type   | Required | Constraints | Description |
+|----------|--------|----------|-------------|-------------|
+| `type`   | string | No       |             |             |
+| `value`  | string | No       |             |             |
+
+
+### fruits.card.geo
 
 A geographical coordinate.
 
-##### Properties
+#### Properties
 
-| Property    | Type   | Required | Description |
-|-------------|--------|----------|-------------|
-| `latitude`  | number | **Yes**  |             |
-| `longitude` | number | **Yes**  |             |
+| Property    | Type   | Required | Constraints                 | Description |
+|-------------|--------|----------|-----------------------------|-------------|
+| `latitude`  | number | **Yes**  | Minimum: -90, Maximum: 90   |             |
+| `longitude` | number | **Yes**  | Minimum: -180, Maximum: 180 |             |
 
-#### org
 
-##### Properties
+### fruits.card.org
 
-| Property           | Type   | Required | Description |
-|--------------------|--------|----------|-------------|
-| `organizationName` | string | No       |             |
-| `organizationUnit` | string | No       |             |
+#### Properties
 
-#### tel
+| Property           | Type   | Required | Constraints | Description |
+|--------------------|--------|----------|-------------|-------------|
+| `organizationName` | string | No       |             |             |
+| `organizationUnit` | string | No       |             |             |
 
-##### Properties
 
-| Property | Type   | Required | Description |
-|----------|--------|----------|-------------|
-| `type`   | string | No       |             |
-| `value`  | string | No       |             |
+### fruits.card.tel
+
+#### Properties
+
+| Property | Type   | Required | Constraints | Description |
+|----------|--------|----------|-------------|-------------|
+| `type`   | string | No       |             |             |
+| `value`  | string | No       |             |             |
+
+
+
 
 ## vegetables
 
 ### Properties
 
-| Property     | Type    | Required | Description                |
-|--------------|---------|----------|----------------------------|
-| `veggieLike` | boolean | **Yes**  | Do I like this vegetable?  |
-| `veggieName` | string  | **Yes**  | The name of the vegetable. |
+| Property     | Type    | Required | Constraints | Description                |
+|--------------|---------|----------|-------------|----------------------------|
+| `veggieLike` | boolean | **Yes**  |             | Do I like this vegetable?  |
+| `veggieName` | string  | **Yes**  |             | The name of the vegetable. |
+
+
 

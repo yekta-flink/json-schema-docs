@@ -4,8 +4,9 @@ A geographical coordinate.
 
 ## Properties
 
-| Property    | Type   | Required | Description |
-|-------------|--------|----------|-------------|
-| `latitude`  | number | **Yes**  |             |
-| `longitude` | number | **Yes**  |             |
+| Property    | Type   | Required | Constraints                 | Description |
+|-------------|--------|----------|-----------------------------|-------------|
+| `latitude`  | number | **Yes**  | Minimum: -90, Maximum: 90   |             |
+| `longitude` | number | **Yes**  | Minimum: -180, Maximum: 180 |             |
+
 

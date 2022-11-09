@@ -2,9 +2,10 @@
 
 ## Properties
 
-| Property    | Type    | Required | Description                                               |
-|-------------|---------|----------|-----------------------------------------------------------|
-| `age`       | integer | No       | Age in years which must be equal to or greater than zero. |
-| `firstName` | string  | No       | The person's first name.                                  |
-| `lastName`  | string  | No       | The person's last name.                                   |
+| Property    | Type    | Required | Constraints | Description                                               |
+|-------------|---------|----------|-------------|-----------------------------------------------------------|
+| `age`       | integer | No       | Minimum: 0  | Age in years which must be equal to or greater than zero. |
+| `firstName` | string  | No       |             | The person's first name.                                  |
+| `lastName`  | string  | No       |             | The person's last name.                                   |
+
 
