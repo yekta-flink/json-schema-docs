@@ -16,9 +16,9 @@ import (
 
 type schema struct {
 	Key         string
-	ID          string `json:"$id,omitempty"`
-	Ref         string `json:"$ref,omitempty"`
-	Parent      *schema
+	ID          string             `json:"$id,omitempty"`
+	Ref         string             `json:"$ref,omitempty"`
+	Parent      *schema            `json:"-"`
 	Schema      string             `json:"$schema,omitempty"`
 	Title       string             `json:"title,omitempty"`
 	Description string             `json:"description,omitempty"`
