@@ -29,6 +29,13 @@ type schema struct {
 	Items             *schema            `json:"items,omitempty"`
 	Definitions       map[string]*schema `json:"definitions,omitempty"`
 	Enum              []Any              `json:"enum"`
+	MinLength         *int               `json:"minLength"`
+	MaxLength         *int               `json:"maxLength"`
+	Minimum           *int               `json:"minimum"`
+	Maximum           *int               `json:"maximum"`
+	MinItems          *int               `json:"minItems"`
+	MaxItems          *int               `json:"maxItems"`
+	Pattern           string             `json:"pattern"`
 	If                *schema            `json:"if"`
 	Then              *schema            `json:"then"`
 }
@@ -163,7 +170,7 @@ func findDefinitions(s *schema) []*schema {
 
 func printProperties(w io.Writer, s *schema) {
 	table := tablewriter.NewWriter(w)
-	table.SetHeader([]string{"Property", "Type", "Required", "Description"})
+	table.SetHeader([]string{"Property", "Type", "Required", "Constraints", "Description"})
 	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
 	table.SetCenterSeparator("|")
 	table.SetAutoFormatHeaders(false)
@@ -220,15 +227,100 @@ func printProperties(w io.Writer, s *schema) {
 
 		desc := p.Description
 
-		if len(p.Enum) > 0 {
-			var vals []string
-			for _, e := range p.Enum {
-				vals = append(vals, e.String())
-			}
-			desc += " Possible values are: `" + strings.Join(vals, "`, `") + "`."
+		// TODO FIXME Continue
+		constraintsTable := []struct {
+			Name   string
+			IsSet  func(*schema) bool
+			String func(*schema) string
+		}{
+			{
+				Name: "Enum",
+				IsSet: func(sch *schema) bool {
+					return len(sch.Enum) > 0
+				},
+				String: func(sch *schema) string {
+					var vals []string
+					for _, e := range sch.Enum {
+						vals = append(vals, e.String())
+					}
+
+					return fmt.Sprintf("[`%s`]", strings.Join(vals, "`, `"))
+				},
+			},
+			{
+				Name: "MinLength",
+				IsSet: func(sch *schema) bool {
+					return p.MinLength != nil
+				},
+				String: func(sch *schema) string {
+					return fmt.Sprintf("%d", *p.MinLength)
+				},
+			},
+			{
+				Name: "MaxLength",
+				IsSet: func(sch *schema) bool {
+					return p.MaxLength != nil
+				},
+				String: func(sch *schema) string {
+					return fmt.Sprintf("%d", *p.MaxLength)
+				},
+			},
+			{
+				Name: "Minimum",
+				IsSet: func(sch *schema) bool {
+					return p.Minimum != nil
+				},
+				String: func(sch *schema) string {
+					return fmt.Sprintf("%d", *p.Minimum)
+				},
+			},
+			{
+				Name: "Maximum",
+				IsSet: func(sch *schema) bool {
+					return p.Maximum != nil
+				},
+				String: func(sch *schema) string {
+					return fmt.Sprintf("%d", *p.Maximum)
+				},
+			},
+			{
+				Name: "MinItems",
+				IsSet: func(sch *schema) bool {
+					return p.MinItems != nil
+				},
+				String: func(sch *schema) string {
+					return fmt.Sprintf("%d", *p.MinItems)
+				},
+			},
+			{
+				Name: "MaxItems",
+				IsSet: func(sch *schema) bool {
+					return p.MaxItems != nil
+				},
+				String: func(sch *schema) string {
+					return fmt.Sprintf("%d", *p.MaxItems)
+				},
+			},
+			{
+				Name: "Pattern",
+				IsSet: func(sch *schema) bool {
+					return p.Pattern != ""
+				},
+				String: func(sch *schema) string {
+					return fmt.Sprintf("`%s`", p.Pattern)
+				},
+			},
 		}
 
-		rows = append(rows, []string{fmt.Sprintf("`%s`", k), propTypeStr, required, strings.TrimSpace(desc)})
+		var constraints []string
+
+		for _, constraint := range constraintsTable {
+			if constraint.IsSet(p) {
+				constraints = append(constraints, fmt.Sprintf("%s: %s", constraint.Name, constraint.String(p)))
+			}
+		}
+
+		rows = append(rows, []string{fmt.Sprintf("`%s`", k), propTypeStr, required, strings.Join(constraints, ", "), strings.TrimSpace(desc)})
 	}
 
 	// Sort by the required column, then by the name column.
