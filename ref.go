@@ -95,8 +95,15 @@ func resolveReference(ref string, dir string, root *simplejson.Json) (*schema, e
 			return nil, err
 		}
 
-		b, _ := json.Marshal(schema)
-		newRoot, _ := simplejson.NewJson(b)
+		b, err := json.Marshal(schema)
+		if err != nil {
+			return nil, err
+		}
+
+		newRoot, err := simplejson.NewJson(b)
+		if err != nil {
+			return nil, err
+		}
 		return resolveInSchemaReference(ref[i+1:], newRoot)
 	}
 
