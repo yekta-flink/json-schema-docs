@@ -10,11 +10,17 @@ import (
 
 func main() {
 	var (
-		schemaPath   = flag.String("schema", "", "Path to the JSON Schema")
-		templatePath = flag.String("template", "", "Path to a template")
+		schemaPath        = flag.String("schema", "", "Path to the JSON Schema")
+		templatePath      = flag.String("template", "", "Path to a template")
+		baseMarkdownLevel = flag.Int("markdownlevel", 1, "Base Markdown level for headings")
 	)
 
 	flag.Parse()
+
+	if (*baseMarkdownLevel > 3) || (*baseMarkdownLevel < 1) {
+		fmt.Println("Markdown heading level should be minimum 1, maximum 3.")
+		os.Exit(1)
+	}
 
 	if *schemaPath == "" {
 		fmt.Println("no path to schema")
@@ -32,7 +38,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	tpl, err := getOrDefaultTemplate(*templatePath)
+	tpl, err := getOrDefaultTemplate(*templatePath, baseMarkdownLevel)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,9 +48,9 @@ func main() {
 	}
 }
 
-func getOrDefaultTemplate(path string) (*template.Template, error) {
+func getOrDefaultTemplate(path string, baseMarkdownLevel *int) (*template.Template, error) {
 	if path == "" {
-		return template.New("docs").Parse(`{{ .Markdown 1 }}`)
+		return template.New("docs").Parse(fmt.Sprintf(`{{ .Markdown %d }}`, *baseMarkdownLevel))
 	}
 	return template.ParseFiles(path)
 }
