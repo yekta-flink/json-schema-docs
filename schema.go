@@ -15,29 +15,30 @@ import (
 )
 
 type schema struct {
-	Key               string
-	ID                string `json:"$id,omitempty"`
-	Ref               string `json:"$ref,omitempty"`
-	Parent            *schema
-	Schema            string             `json:"$schema,omitempty"`
-	Title             string             `json:"title,omitempty"`
-	Description       string             `json:"description,omitempty"`
-	Required          []string           `json:"required,omitempty"`
-	Type              PropertyTypes      `json:"type,omitempty"`
-	Properties        map[string]*schema `json:"properties,omitempty"`
-	PatternProperties map[string]*schema `json:"patternProperties,omitempty"`
-	Items             *schema            `json:"items,omitempty"`
-	Definitions       map[string]*schema `json:"definitions,omitempty"`
-	Enum              []Any              `json:"enum"`
-	MinLength         *int               `json:"minLength"`
-	MaxLength         *int               `json:"maxLength"`
-	Minimum           *int               `json:"minimum"`
-	Maximum           *int               `json:"maximum"`
-	MinItems          *int               `json:"minItems"`
-	MaxItems          *int               `json:"maxItems"`
-	Pattern           string             `json:"pattern"`
-	If                *schema            `json:"if"`
-	Then              *schema            `json:"then"`
+	Key         string
+	ID          string `json:"$id,omitempty"`
+	Ref         string `json:"$ref,omitempty"`
+	Parent      *schema
+	Schema      string             `json:"$schema,omitempty"`
+	Title       string             `json:"title,omitempty"`
+	Description string             `json:"description,omitempty"`
+	Required    []string           `json:"required,omitempty"`
+	Type        PropertyTypes      `json:"type,omitempty"`
+	Properties  map[string]*schema `json:"properties,omitempty"`
+	// PatternProperties map[string]*schema `json:"patternProperties,omitempty"`
+	Items       *schema            `json:"items,omitempty"`
+	Definitions map[string]*schema `json:"definitions,omitempty"`
+	Enum        []Any              `json:"enum"`
+	MinLength   *int               `json:"minLength"`
+	MaxLength   *int               `json:"maxLength"`
+	Minimum     *int               `json:"minimum"`
+	Maximum     *int               `json:"maximum"`
+	MinItems    *int               `json:"minItems"`
+	MaxItems    *int               `json:"maxItems"`
+	MultipleOf  *int               `json:"multipleOf"`
+	Pattern     string             `json:"pattern"`
+	If          *schema            `json:"if"`
+	Then        *schema            `json:"then"`
 }
 
 func newSchema(r io.Reader, workingDir string) (*schema, error) {
@@ -227,99 +228,7 @@ func printProperties(w io.Writer, s *schema) {
 
 		desc := p.Description
 
-		constraintsTable := []struct {
-			Name   string
-			IsSet  func(*schema) bool
-			String func(*schema) string
-		}{
-			{
-				Name: "Enum",
-				IsSet: func(sch *schema) bool {
-					return len(sch.Enum) > 0
-				},
-				String: func(sch *schema) string {
-					var vals []string
-					for _, e := range sch.Enum {
-						vals = append(vals, e.String())
-					}
-
-					return fmt.Sprintf("[`%s`]", strings.Join(vals, "`, `"))
-				},
-			},
-			{
-				Name: "MinLength",
-				IsSet: func(sch *schema) bool {
-					return p.MinLength != nil
-				},
-				String: func(sch *schema) string {
-					return fmt.Sprintf("%d", *p.MinLength)
-				},
-			},
-			{
-				Name: "MaxLength",
-				IsSet: func(sch *schema) bool {
-					return p.MaxLength != nil
-				},
-				String: func(sch *schema) string {
-					return fmt.Sprintf("%d", *p.MaxLength)
-				},
-			},
-			{
-				Name: "Minimum",
-				IsSet: func(sch *schema) bool {
-					return p.Minimum != nil
-				},
-				String: func(sch *schema) string {
-					return fmt.Sprintf("%d", *p.Minimum)
-				},
-			},
-			{
-				Name: "Maximum",
-				IsSet: func(sch *schema) bool {
-					return p.Maximum != nil
-				},
-				String: func(sch *schema) string {
-					return fmt.Sprintf("%d", *p.Maximum)
-				},
-			},
-			{
-				Name: "MinItems",
-				IsSet: func(sch *schema) bool {
-					return p.MinItems != nil
-				},
-				String: func(sch *schema) string {
-					return fmt.Sprintf("%d", *p.MinItems)
-				},
-			},
-			{
-				Name: "MaxItems",
-				IsSet: func(sch *schema) bool {
-					return p.MaxItems != nil
-				},
-				String: func(sch *schema) string {
-					return fmt.Sprintf("%d", *p.MaxItems)
-				},
-			},
-			{
-				Name: "Pattern",
-				IsSet: func(sch *schema) bool {
-					return p.Pattern != ""
-				},
-				String: func(sch *schema) string {
-					return fmt.Sprintf("`%s`", p.Pattern)
-				},
-			},
-		}
-
-		var constraints []string
-
-		for _, constraint := range constraintsTable {
-			if constraint.IsSet(p) {
-				constraints = append(constraints, fmt.Sprintf("%s: %s", constraint.Name, constraint.String(p)))
-			}
-		}
-
-		rows = append(rows, []string{fmt.Sprintf("`%s`", k), propTypeStr, required, strings.Join(constraints, ", "), strings.TrimSpace(desc)})
+		rows = append(rows, []string{fmt.Sprintf("`%s`", k), propTypeStr, required, printConstraints(p), strings.TrimSpace(desc)})
 	}
 
 	// Sort by the required column, then by the name column.
