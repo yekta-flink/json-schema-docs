@@ -116,6 +116,26 @@ func (s schema) Markdown(level int) string {
 			continue
 		}
 
+		fmt.Fprint(&buf, obj.Markdown(level+1))
+	}
+
+	// Add padding.
+	fmt.Fprintln(&buf)
+
+	// Handle conditionals.
+	if s.Then != nil {
+		fmt.Fprintln(&buf, makeHeading("Conditional Properties (Then)", level+1))
+
+		printProperties(&buf, s.Then)
+
+		// Add padding.
+		fmt.Fprintln(&buf)
+
+		for _, obj := range findDefinitions(s.Then) {
+			if (len(obj.Properties) == 0) && (obj.Then == nil) {
+				continue
+			}
+
 			fmt.Fprint(&buf, obj.Markdown(level+1))
 		}
 	}

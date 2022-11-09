@@ -32,6 +32,25 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 		prop.Key = k
 	}
 
+	if schem.Then != nil {
+		for k, prop := range schem.Then.Properties {
+			if prop.Ref != "" {
+				tmp, err := resolveReference(prop.Ref, dir, root)
+				if err != nil {
+					return nil, err
+				}
+				*prop = *tmp
+			}
+			foo, err := resolveSchema(prop, dir, root)
+			if err != nil {
+				return nil, err
+			}
+			*prop = *foo
+			prop.Parent = schem
+			prop.Key = k
+		}
+	}
+
 	if schem.Items != nil {
 		if schem.Items.Ref != "" {
 			tmp, err := resolveReference(schem.Items.Ref, dir, root)
