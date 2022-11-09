@@ -227,7 +227,6 @@ func printProperties(w io.Writer, s *schema) {
 
 		desc := p.Description
 
-		// TODO FIXME Continue
 		constraintsTable := []struct {
 			Name   string
 			IsSet  func(*schema) bool
