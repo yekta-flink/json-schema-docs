@@ -216,7 +216,14 @@ func printProperties(w io.Writer, s *schema) {
 				if p.Items != nil {
 					for _, pi := range p.Items.Type {
 						if pi == PropertyTypeObject {
-							propType = append(propType, fmt.Sprintf("[%s](#%s)[]", pi, strings.ToLower(k)))
+							// create no links if no properties were defined
+							if p.Items.Properties == nil {
+								propType = append(propType, fmt.Sprintf("[%s][]", pi))
+							}
+
+							if p.Items.Properties != nil {
+								propType = append(propType, fmt.Sprintf("[%s](#%s)[]", pi, strings.ToLower(buildSchemaPath(p))))
+							}
 						} else {
 							propType = append(propType, fmt.Sprintf("%s[]", pi))
 						}
