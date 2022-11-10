@@ -29,6 +29,9 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 		}
 		*prop = *foo
 		prop.Parent = schem
+		if schem.Key == "then" {
+			prop.Parent = schem.Parent
+		}
 		prop.Key = k
 	}
 
@@ -42,23 +45,15 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 			schem.Then = tmp
 		}
 
-		// Go through properties of the schema in condition.
-		for k, prop := range schem.Then.Properties {
-			if prop.Ref != "" {
-				tmp, err := resolveReference(prop.Ref, dir, root)
-				if err != nil {
-					return nil, err
-				}
-				*prop = *tmp
-			}
-			foo, err := resolveSchema(prop, dir, root)
-			if err != nil {
-				return nil, err
-			}
-			*prop = *foo
-			prop.Parent = schem
-			prop.Key = k
+		schem.Then.Parent = schem
+		schem.Then.Key = "then"
+
+		foo, err := resolveSchema(schem.Then, dir, root)
+		if err != nil {
+			return nil, err
 		}
+		schem.Then = foo
+
 	}
 
 	if schem.Items != nil {
