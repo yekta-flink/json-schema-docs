@@ -1,6 +1,6 @@
 # json-schema-docs
 
-A simple JSON Schema to Markdown generator, forked from `marcusolsson/json-schema-docs`.
+A simple JSON Schema to Markdown generator, forked from `marcusolsson/json-schema-docs` on v0.2.1.
 
 This generator doesn't attempt to support the full JSON Schema specification. Instead, it's designed with the rationale that most people are only using a subset of the spec.
 
@@ -14,6 +14,11 @@ go install github.com/goflink/json-schema-docs
 
 ```bash
 json-schema-docs -schema ./user.schema.json > user.md
+```
+
+To create the Markdown with a higher base level:
+```bash
+json-schema-docs -schema ./user.schema.json -markdownlevel 3 > user.md
 ```
 
 To use a template when generating the Markdown:
