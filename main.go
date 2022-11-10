@@ -50,7 +50,7 @@ func main() {
 
 func getOrDefaultTemplate(path string, baseMarkdownLevel *int) (*template.Template, error) {
 	if path == "" {
-		return template.New("docs").Parse(fmt.Sprintf(`{{ .Markdown %d }}`, *baseMarkdownLevel))
+		return template.New("docs").Parse(fmt.Sprintf(`{{ .Markdown %d %d }}`, *baseMarkdownLevel, *baseMarkdownLevel+2))
 	}
 	return template.ParseFiles(path)
 }

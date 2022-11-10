@@ -39,10 +39,10 @@ description = "{{ .Description }}"
 
 This is the reference documentation for an API.
 
-{{ .Markdown 2 }}
+{{ .Markdown 2 4}}
 ```
 
-The argument to `.Markdown` is the heading level you want the docs to start at.
+The argument to `.Markdown` is the heading level you want the docs to start at, and the maximum heading depth for generation.
 
 ## License
 

@@ -7,9 +7,9 @@ A representation of a person, company, organization, or place
 | `fruits`     | [object](#fruits)[]     | No       |             |             |
 | `vegetables` | [object](#vegetables)[] | No       |             |             |
 
-### fruits
+#### fruits
 
-#### Properties
+##### Properties
 
 | Property | Type                   | Required | Constraints | Description                                                   |
 |----------|------------------------|----------|-------------|---------------------------------------------------------------|
@@ -17,11 +17,11 @@ A representation of a person, company, organization, or place
 | `cal`    | [object](#fruits.cal)  | No       |             | A representation of an event                                  |
 | `card`   | [object](#fruits.card) | No       |             | A representation of a person, company, organization, or place |
 
-### fruits.adr
+##### fruits.adr
 
 An address similar to http://microformats.org/wiki/h-card
 
-#### Properties
+###### Properties
 
 | Property           | Type   | Required | Constraints | Description |
 |--------------------|--------|----------|-------------|-------------|
@@ -34,11 +34,11 @@ An address similar to http://microformats.org/wiki/h-card
 | `street-address`   | string | No       |             |             |
 
 
-### fruits.cal
+##### fruits.cal
 
 A representation of an event
 
-#### Properties
+###### Properties
 
 | Property      | Type                      | Required | Constraints | Description                |
 |---------------|---------------------------|----------|-------------|----------------------------|
@@ -54,11 +54,11 @@ A representation of an event
 | `rrule`       | string                    | No       |             | Recurrence rule            |
 | `url`         | string                    | No       |             |                            |
 
-### fruits.cal.geo
+##### fruits.cal.geo
 
 A geographical coordinate.
 
-#### Properties
+###### Properties
 
 | Property    | Type   | Required | Constraints                 | Description |
 |-------------|--------|----------|-----------------------------|-------------|
@@ -67,11 +67,11 @@ A geographical coordinate.
 
 
 
-### fruits.card
+##### fruits.card
 
 A representation of a person, company, organization, or place
 
-#### Properties
+###### Properties
 
 | Property          | Type                         | Required | Constraints | Description                                               |
 |-------------------|------------------------------|----------|-------------|-----------------------------------------------------------|
@@ -96,11 +96,11 @@ A representation of a person, company, organization, or place
 | `tz`              | string                       | No       |             |                                                           |
 | `url`             | string                       | No       |             |                                                           |
 
-### fruits.card.adr
+##### fruits.card.adr
 
 An address similar to http://microformats.org/wiki/h-card
 
-#### Properties
+###### Properties
 
 | Property           | Type   | Required | Constraints | Description |
 |--------------------|--------|----------|-------------|-------------|
@@ -113,9 +113,9 @@ An address similar to http://microformats.org/wiki/h-card
 | `street-address`   | string | No       |             |             |
 
 
-### fruits.card.email
+##### fruits.card.email
 
-#### Properties
+###### Properties
 
 | Property | Type   | Required | Constraints | Description |
 |----------|--------|----------|-------------|-------------|
@@ -123,11 +123,11 @@ An address similar to http://microformats.org/wiki/h-card
 | `value`  | string | No       |             |             |
 
 
-### fruits.card.geo
+##### fruits.card.geo
 
 A geographical coordinate.
 
-#### Properties
+###### Properties
 
 | Property    | Type   | Required | Constraints                 | Description |
 |-------------|--------|----------|-----------------------------|-------------|
@@ -135,9 +135,9 @@ A geographical coordinate.
 | `longitude` | number | **Yes**  | Minimum: -180, Maximum: 180 |             |
 
 
-### fruits.card.org
+##### fruits.card.org
 
-#### Properties
+###### Properties
 
 | Property           | Type   | Required | Constraints | Description |
 |--------------------|--------|----------|-------------|-------------|
@@ -145,9 +145,9 @@ A geographical coordinate.
 | `organizationUnit` | string | No       |             |             |
 
 
-### fruits.card.tel
+##### fruits.card.tel
 
-#### Properties
+###### Properties
 
 | Property | Type   | Required | Constraints | Description |
 |----------|--------|----------|-------------|-------------|
@@ -157,9 +157,9 @@ A geographical coordinate.
 
 
 
-### vegetables
+#### vegetables
 
-#### Properties
+##### Properties
 
 | Property     | Type    | Required | Constraints | Description                |
 |--------------|---------|----------|-------------|----------------------------|

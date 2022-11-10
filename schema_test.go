@@ -26,7 +26,7 @@ func TestSchema(t *testing.T) {
 		{name: "geographical-location", schema: "geographical-location.schema.json"},
 		{name: "ref-hell", schema: "ref-hell.schema.json"},
 		{name: "union", schema: "union.schema.json"},
-		{name: "deep-headings", schema: "ref-hell.schema.json", level: 5},
+		{name: "deep-headings", schema: "ref-hell.schema.json", level: 3},
 		{name: "helm-chart", schema: "helm-chart.schema.json"},
 	}
 
@@ -46,9 +46,9 @@ func TestSchema(t *testing.T) {
 			var buf bytes.Buffer
 
 			if tt.level > 0 {
-				buf.WriteString(schema.Markdown(tt.level))
+				buf.WriteString(schema.Markdown(tt.level, tt.level+2))
 			} else {
-				buf.WriteString(schema.Markdown(1))
+				buf.WriteString(schema.Markdown(1, 3))
 			}
 
 			gp := filepath.Join("testdata", strings.Replace(t.Name()+".golden", "/", "_", -1))

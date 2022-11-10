@@ -80,13 +80,13 @@ func buildSchemaPath(s *schema) string {
 //
 // The level argument can be used to offset the heading levels. This can be
 // useful if you want to add the schema under a subheading.
-func (s schema) Markdown(level int) string {
+func (s schema) Markdown(level int, max_level int) string {
 	if level < 1 {
 		level = 1
 	}
 
-	if level > 3 {
-		level = 3
+	if level > max_level {
+		level = max_level
 	}
 
 	var buf bytes.Buffer
@@ -116,7 +116,7 @@ func (s schema) Markdown(level int) string {
 			continue
 		}
 
-		fmt.Fprint(&buf, obj.Markdown(level+1))
+		fmt.Fprint(&buf, obj.Markdown(level+1, max_level))
 	}
 
 	// Add padding.
@@ -136,7 +136,7 @@ func (s schema) Markdown(level int) string {
 				continue
 			}
 
-			fmt.Fprint(&buf, obj.Markdown(level+1))
+			fmt.Fprint(&buf, obj.Markdown(level+1, max_level))
 		}
 	}
 
