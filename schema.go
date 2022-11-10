@@ -39,6 +39,7 @@ type schema struct {
 	Pattern     string             `json:"pattern"`
 	If          *schema            `json:"if"`
 	Then        *schema            `json:"then"`
+	Else        *schema            `json:"else"`
 }
 
 func newSchema(r io.Reader, workingDir string) (*schema, error) {
@@ -123,21 +124,41 @@ func (s schema) Markdown(level int, max_level int) string {
 	fmt.Fprintln(&buf)
 
 	// Handle conditionals.
-	if s.Then != nil {
-		fmt.Fprintln(&buf, makeHeading("Conditional Properties (Then)", level+1))
+	conditionals := []struct {
+		Name      string
+		Attribute *schema
+	}{
+		{
+			Name:      "Then",
+			Attribute: s.Then,
+		},
+		{
+			Name:      "Else",
+			Attribute: s.Else,
+		},
+	}
 
-		printProperties(&buf, s.Then)
+	for _, cnd := range conditionals {
+		if cnd.Attribute != nil {
+			fmt.Fprintln(&buf, makeHeading(
+				fmt.Sprintf("Conditional Properties (%s)", cnd.Name), level+1))
 
-		// Add padding.
-		fmt.Fprintln(&buf)
+			printProperties(&buf, cnd.Attribute)
 
-		for _, obj := range findDefinitions(s.Then) {
-			if (len(obj.Properties) == 0) && (obj.Then == nil) {
-				continue
+			// Add padding.
+			fmt.Fprintln(&buf)
+
+			for _, obj := range findDefinitions(cnd.Attribute) {
+				if len(obj.Properties) == 0 {
+					if (obj.Then == nil) && (obj.Else == nil) {
+						continue
+					}
+				}
+
+				fmt.Fprint(&buf, obj.Markdown(level+1, max_level))
 			}
-
-			fmt.Fprint(&buf, obj.Markdown(level+1, max_level))
 		}
+
 	}
 
 	return buf.String()

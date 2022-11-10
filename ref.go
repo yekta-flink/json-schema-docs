@@ -28,11 +28,13 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 			return nil, err
 		}
 		*prop = *foo
+		prop.Key = k
+
 		prop.Parent = schem
-		if schem.Key == "then" {
+		if (schem.Key == "then") || (schem.Key == "else") {
 			prop.Parent = schem.Parent
 		}
-		prop.Key = k
+
 	}
 
 	if schem.Then != nil {
@@ -54,6 +56,26 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 		}
 		schem.Then = foo
 
+	}
+
+	if schem.Else != nil {
+		// Resolve reference if there is any and replace schem.Then.
+		if schem.Else.Ref != "" {
+			tmp, err := resolveReference(schem.Else.Ref, dir, root)
+			if err != nil {
+				return nil, err
+			}
+			schem.Else = tmp
+		}
+
+		schem.Else.Parent = schem
+		schem.Else.Key = "else"
+
+		foo, err := resolveSchema(schem.Else, dir, root)
+		if err != nil {
+			return nil, err
+		}
+		schem.Else = foo
 	}
 
 	if schem.Items != nil {
