@@ -1,0 +1,360 @@
+# workload helm chart
+
+Helm chart as of commit 16183918c279f772f778f0c62231b9071c7810ba. It's a sufficiently complex schema to test against.
+
+## Properties
+
+| Property                | Type                                   | Required | Constraints                         | Description                                                                                   |
+|-------------------------|----------------------------------------|----------|-------------------------------------|-----------------------------------------------------------------------------------------------|
+| `env`                   | string                                 | **Yes**  | Enum: [`staging`, `prod`, `shared`] |                                                                                               |
+| `image`                 | [object](#image)                       | **Yes**  |                                     |                                                                                               |
+| `replicaCount`          | integer                                | **Yes**  | Minimum: 1                          |                                                                                               |
+| `resourcesGCPProject`   | string                                 | **Yes**  | MinLength: 1                        |                                                                                               |
+| `service`               | [object](#service)                     | **Yes**  |                                     |                                                                                               |
+| `team`                  | string                                 | **Yes**  | MinLength: 1                        |                                                                                               |
+| `workloadServiceName`   | string                                 | **Yes**  | MinLength: 1                        |                                                                                               |
+| `affinity`              | [object] or null                       | No       |                                     |                                                                                               |
+| `args`                  | string[]                               | No       |                                     |                                                                                               |
+| `autoscaling`           | [object](#autoscaling)                 | No       |                                     | If enabled, any attribute you set under this object will be passed to HorizontalPodAutoscaler |
+| `businessDomain`        | string or null                         | No       |                                     |                                                                                               |
+| `command`               | string[]                               | No       |                                     |                                                                                               |
+| `configMap`             | [object]                               | No       |                                     |                                                                                               |
+| `cronjobs`              | [object](#cronjobs)[] or null          | No       |                                     |                                                                                               |
+| `deploymentEnabled`     | boolean                                | No       |                                     |                                                                                               |
+| `edgeStack`             | [object](#edgestack)                   | No       |                                     |                                                                                               |
+| `externalSecrets`       | array                                  | No       |                                     |                                                                                               |
+| `extraVolumeMounts`     | [object](#extravolumemounts)[] or null | No       |                                     |                                                                                               |
+| `extraVolumes`          | [object](#extravolumes)[] or null      | No       |                                     |                                                                                               |
+| `fullnameOverride`      | string                                 | No       |                                     |                                                                                               |
+| `global`                |                                        | No       |                                     |                                                                                               |
+| `imagePullSecrets`      | [object]                               | No       |                                     |                                                                                               |
+| `ingress`               | [object](#ingress)                     | No       |                                     |                                                                                               |
+| `initContainers`        | [object](#initcontainers)[]            | No       |                                     |                                                                                               |
+| `jobs`                  | [object](#jobs)[] or null              | No       |                                     |                                                                                               |
+| `livenessProbe`         | [object](#livenessprobe)               | No       |                                     |                                                                                               |
+| `metrics`               | [object](#metrics)                     | No       |                                     |                                                                                               |
+| `nameOverride`          | string                                 | No       |                                     |                                                                                               |
+| `nodeSelector`          | [object]                               | No       |                                     |                                                                                               |
+| `persistentVolumeClaim` | [object](#persistentvolumeclaim)       | No       |                                     |                                                                                               |
+| `podSecurityContext`    | [object]                               | No       |                                     |                                                                                               |
+| `proxy`                 |                                        | No       |                                     |                                                                                               |
+| `rbac`                  | [object](#rbac)                        | No       |                                     |                                                                                               |
+| `readinessProbe`        | [object](#readinessprobe)              | No       |                                     |                                                                                               |
+| `resources`             | [object]                               | No       |                                     |                                                                                               |
+| `revisionHistoryLimit`  | integer                                | No       | Minimum: 1                          |                                                                                               |
+| `securityContext`       | [object]                               | No       |                                     |                                                                                               |
+| `sidecarContainers`     | [object]                               | No       |                                     |                                                                                               |
+| `sqlProxy`              |                                        | No       |                                     |                                                                                               |
+| `startupProbe`          | [object](#startupprobe)                | No       |                                     |                                                                                               |
+| `tolerations`           | array                                  | No       |                                     |                                                                                               |
+| `tracing`               | [object](#tracing)                     | No       |                                     |                                                                                               |
+| `version`               | string or null                         | No       |                                     |                                                                                               |
+| `workloadsGCPProject`   | string                                 | No       |                                     |                                                                                               |
+
+## autoscaling
+
+If enabled, any attribute you set under this object will be passed to HorizontalPodAutoscaler
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | No       |             |             |
+
+
+## cronjobs
+
+### Properties
+
+| Property                     | Type                           | Required | Constraints  | Description |
+|------------------------------|--------------------------------|----------|--------------|-------------|
+| `enabled`                    | boolean                        | **Yes**  |              |             |
+| `image`                      | [object](#cronjobs.image)      | **Yes**  |              |             |
+| `name`                       | string                         | **Yes**  | MinLength: 1 |             |
+| `schedule`                   | string                         | **Yes**  | MinLength: 1 |             |
+| `argocd`                     | [object](#cronjobs.argocd)     | No       |              |             |
+| `concurrencyPolicy`          | string or null                 | No       |              |             |
+| `configMap`                  | [object]                       | No       |              |             |
+| `container`                  | [object]                       | No       |              |             |
+| `externalSecrets`            | array                          | No       |              |             |
+| `extraVolumeMounts`          | [object](#extravolumemounts)[] | No       |              |             |
+| `extraVolumes`               | [object](#extravolumes)[]      | No       |              |             |
+| `failedJobsHistoryLimit`     | integer or null                | No       |              |             |
+| `sqlProxy`                   |                                | No       |              |             |
+| `startingDeadlineSeconds`    | integer or null                | No       |              |             |
+| `successfulJobsHistoryLimit` | integer or null                | No       |              |             |
+
+### cronjobs.argocd
+
+#### Properties
+
+| Property   | Type            | Required | Constraints | Description |
+|------------|-----------------|----------|-------------|-------------|
+| `hook`     | string or null  | No       |             |             |
+| `syncWave` | integer or null | No       |             |             |
+
+
+### cronjobs.image
+
+#### Properties
+
+| Property     | Type           | Required | Constraints | Description |
+|--------------|----------------|----------|-------------|-------------|
+| `repository` | string or null | No       |             |             |
+| `tag`        | string or null | No       |             |             |
+
+
+
+## edgeStack
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | **Yes**  |             |             |
+
+
+### Conditional Properties (Then)
+| Property       | Type                              | Required | Constraints | Description |
+|----------------|-----------------------------------|----------|-------------|-------------|
+| `cors`         | [object]                          | No       |             |             |
+| `enabled`      | boolean                           | No       |             |             |
+| `filterPolicy` | [object](#edgestack.filterpolicy) | No       |             |             |
+| `pathPrefix`   | string                            | No       |             |             |
+
+### edgeStack.filterPolicy
+
+#### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | **Yes**  |             |             |
+
+
+#### Conditional Properties (Then)
+| Property     | Type   | Required | Constraints | Description |
+|--------------|--------|----------|-------------|-------------|
+| `filterName` | string | **Yes**  |             |             |
+
+## image
+
+### Properties
+
+| Property     | Type   | Required | Constraints  | Description |
+|--------------|--------|----------|--------------|-------------|
+| `pullPolicy` | string | **Yes**  | MinLength: 1 |             |
+| `repository` | string | **Yes**  | MinLength: 1 |             |
+| `tag`        | string | **Yes**  | MinLength: 1 |             |
+
+
+## ingress
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | **Yes**  |             |             |
+
+
+### Conditional Properties (Then)
+| Property      | Type             | Required | Constraints | Description |
+|---------------|------------------|----------|-------------|-------------|
+| `enabled`     | boolean          | **Yes**  |             |             |
+| `hosts`       | string[]         | **Yes**  |             |             |
+| `annotations` | [object]         | No       |             |             |
+| `pathType`    | string or null   | No       |             |             |
+| `path`        | string or null   | No       |             |             |
+| `tls`         | [object](#tls)[] | No       |             |             |
+
+## initContainers
+
+### Properties
+
+| Property | Type   | Required | Constraints  | Description |
+|----------|--------|----------|--------------|-------------|
+| `name`   | string | **Yes**  | MinLength: 1 |             |
+
+
+## jobs
+
+### Properties
+
+| Property                  | Type                           | Required | Constraints  | Description |
+|---------------------------|--------------------------------|----------|--------------|-------------|
+| `enabled`                 | boolean                        | **Yes**  |              |             |
+| `image`                   | [object](#jobs.image)          | **Yes**  |              |             |
+| `name`                    | string                         | **Yes**  | MinLength: 1 |             |
+| `restartPolicy`           | string                         | **Yes**  | MinLength: 1 |             |
+| `activeDeadlineSeconds`   | integer or null                | No       |              |             |
+| `argocd`                  | [object](#jobs.argocd)         | No       |              |             |
+| `backoffLimit`            | integer or null                | No       |              |             |
+| `configMap`               | [object]                       | No       |              |             |
+| `container`               | [object]                       | No       |              |             |
+| `externalSecrets`         | array                          | No       |              |             |
+| `extraVolumeMounts`       | [object](#extravolumemounts)[] | No       |              |             |
+| `extraVolumes`            | [object](#extravolumes)[]      | No       |              |             |
+| `skipSqlProxy`            | boolean                        | No       |              |             |
+| `sqlProxy`                |                                | No       |              |             |
+| `ttlSecondsAfterFinished` | integer or null                | No       |              |             |
+
+### jobs.argocd
+
+#### Properties
+
+| Property   | Type            | Required | Constraints | Description |
+|------------|-----------------|----------|-------------|-------------|
+| `hook`     | string or null  | No       |             |             |
+| `syncWave` | integer or null | No       |             |             |
+
+
+### jobs.image
+
+#### Properties
+
+| Property     | Type   | Required | Constraints  | Description |
+|--------------|--------|----------|--------------|-------------|
+| `repository` | string | No       | MinLength: 1 |             |
+| `tag`        | string | No       | MinLength: 1 |             |
+
+
+
+## livenessProbe
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | No       |             |             |
+
+
+### Conditional Properties (Then)
+| Property              | Type            | Required | Constraints | Description |
+|-----------------------|-----------------|----------|-------------|-------------|
+| `enabled`             | boolean         | No       |             |             |
+| `failureThreshold`    | integer or null | No       |             |             |
+| `initialDelaySeconds` | integer or null | No       |             |             |
+| `path`                | string          | No       |             |             |
+| `periodSeconds`       | integer or null | No       |             |             |
+| `port`                | integer or null | No       |             |             |
+| `successThreshold`    | integer or null | No       |             |             |
+| `timeoutSeconds`      | integer or null | No       |             |             |
+
+## metrics
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | No       |             |             |
+
+
+## persistentVolumeClaim
+
+### Properties
+
+| Property | Type    | Required | Constraints | Description |
+|----------|---------|----------|-------------|-------------|
+| `create` | boolean | No       |             |             |
+
+
+### Conditional Properties (Then)
+| Property      | Type     | Required | Constraints | Description |
+|---------------|----------|----------|-------------|-------------|
+| `accessModes` | string[] | **Yes**  |             |             |
+| `create`      | boolean  | **Yes**  |             |             |
+
+## rbac
+
+### Properties
+
+| Property | Type    | Required | Constraints | Description |
+|----------|---------|----------|-------------|-------------|
+| `create` | boolean | No       |             |             |
+
+
+### Conditional Properties (Then)
+| Property         | Type                           | Required | Constraints | Description |
+|------------------|--------------------------------|----------|-------------|-------------|
+| `create`         | boolean                        | No       |             |             |
+| `roleRules`      | array                          | No       |             |             |
+| `serviceAccount` | [object](#rbac.serviceaccount) | No       |             |             |
+
+### rbac.serviceAccount
+
+#### Properties
+
+| Property | Type    | Required | Constraints | Description |
+|----------|---------|----------|-------------|-------------|
+| `create` | boolean | No       |             |             |
+
+
+#### Conditional Properties (Then)
+| Property      | Type     | Required | Constraints | Description |
+|---------------|----------|----------|-------------|-------------|
+| `annotations` | [object] | No       |             |             |
+| `create`      | boolean  | No       |             |             |
+| `name`        | string   | No       |             |             |
+
+## readinessProbe
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | No       |             |             |
+
+
+### Conditional Properties (Then)
+| Property              | Type            | Required | Constraints | Description |
+|-----------------------|-----------------|----------|-------------|-------------|
+| `enabled`             | boolean         | No       |             |             |
+| `failureThreshold`    | integer or null | No       |             |             |
+| `initialDelaySeconds` | integer or null | No       |             |             |
+| `path`                | string          | No       |             |             |
+| `periodSeconds`       | integer or null | No       |             |             |
+| `port`                | integer or null | No       |             |             |
+| `successThreshold`    | integer or null | No       |             |             |
+| `timeoutSeconds`      | integer or null | No       |             |             |
+
+## service
+
+### Properties
+
+| Property         | Type     | Required | Constraints | Description |
+|------------------|----------|----------|-------------|-------------|
+| `containerPorts` | [object] | No       |             |             |
+| `ports`          | [object] | No       |             |             |
+| `type`           | string   | No       |             |             |
+
+
+## startupProbe
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | No       |             |             |
+
+
+### Conditional Properties (Then)
+| Property              | Type            | Required | Constraints | Description |
+|-----------------------|-----------------|----------|-------------|-------------|
+| `enabled`             | boolean         | No       |             |             |
+| `failureThreshold`    | integer or null | No       |             |             |
+| `initialDelaySeconds` | integer or null | No       |             |             |
+| `path`                | string          | No       |             |             |
+| `periodSeconds`       | integer or null | No       |             |             |
+| `port`                | integer or null | No       |             |             |
+| `successThreshold`    | integer or null | No       |             |             |
+| `timeoutSeconds`      | integer or null | No       |             |             |
+
+## tracing
+
+### Properties
+
+| Property  | Type    | Required | Constraints | Description |
+|-----------|---------|----------|-------------|-------------|
+| `enabled` | boolean | No       |             |             |
+
+
+

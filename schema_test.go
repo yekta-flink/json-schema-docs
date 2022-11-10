@@ -27,6 +27,7 @@ func TestSchema(t *testing.T) {
 		{name: "ref-hell", schema: "ref-hell.schema.json"},
 		{name: "union", schema: "union.schema.json"},
 		{name: "deep-headings", schema: "ref-hell.schema.json", level: 5},
+		{name: "helm-chart", schema: "helm-chart.schema.json"},
 	}
 
 	for _, tt := range schemaTests {
