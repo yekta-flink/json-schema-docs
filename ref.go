@@ -33,6 +33,16 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 	}
 
 	if schem.Then != nil {
+		// Resolve reference if there is any and replace schem.Then.
+		if schem.Then.Ref != "" {
+			tmp, err := resolveReference(schem.Then.Ref, dir, root)
+			if err != nil {
+				return nil, err
+			}
+			schem.Then = tmp
+		}
+
+		// Go through properties of the schema in condition.
 		for k, prop := range schem.Then.Properties {
 			if prop.Ref != "" {
 				tmp, err := resolveReference(prop.Ref, dir, root)
