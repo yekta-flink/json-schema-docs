@@ -37,45 +37,41 @@ func resolveSchema(schem *schema, dir string, root *simplejson.Json) (*schema, e
 
 	}
 
-	if schem.Then != nil {
-		// Resolve reference if there is any and replace schem.Then.
-		if schem.Then.Ref != "" {
-			tmp, err := resolveReference(schem.Then.Ref, dir, root)
-			if err != nil {
-				return nil, err
-			}
-			schem.Then = tmp
-		}
-
-		schem.Then.Parent = schem
-		schem.Then.Key = "then"
-
-		foo, err := resolveSchema(schem.Then, dir, root)
-		if err != nil {
-			return nil, err
-		}
-		schem.Then = foo
-
+	// Handle conditionals.
+	conditionals := []struct {
+		Name      string
+		Attribute *schema
+	}{
+		{
+			Name:      "Then",
+			Attribute: schem.Then,
+		},
+		{
+			Name:      "Else",
+			Attribute: schem.Else,
+		},
 	}
 
-	if schem.Else != nil {
-		// Resolve reference if there is any and replace schem.Then.
-		if schem.Else.Ref != "" {
-			tmp, err := resolveReference(schem.Else.Ref, dir, root)
+	for _, cnd := range conditionals {
+		if cnd.Attribute != nil {
+			// Resolve reference if there is any and replace schema.
+			if cnd.Attribute.Ref != "" {
+				tmp, err := resolveReference(cnd.Attribute.Ref, dir, root)
+				if err != nil {
+					return nil, err
+				}
+				*cnd.Attribute = *tmp
+			}
+
+			cnd.Attribute.Parent = schem
+			cnd.Attribute.Key = strings.ToLower(cnd.Name)
+
+			foo, err := resolveSchema(cnd.Attribute, dir, root)
 			if err != nil {
 				return nil, err
 			}
-			schem.Else = tmp
+			*cnd.Attribute = *foo
 		}
-
-		schem.Else.Parent = schem
-		schem.Else.Key = "else"
-
-		foo, err := resolveSchema(schem.Else, dir, root)
-		if err != nil {
-			return nil, err
-		}
-		schem.Else = foo
 	}
 
 	if schem.Items != nil {
