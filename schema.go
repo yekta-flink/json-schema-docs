@@ -25,7 +25,6 @@ type schema struct {
 	Required    []string           `json:"required,omitempty"`
 	Type        PropertyTypes      `json:"type,omitempty"`
 	Properties  map[string]*schema `json:"properties,omitempty"`
-	// PatternProperties map[string]*schema `json:"patternProperties,omitempty"`
 	Items       *schema            `json:"items,omitempty"`
 	Definitions map[string]*schema `json:"definitions,omitempty"`
 	Enum        []Any              `json:"enum"`
